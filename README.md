@@ -261,7 +261,113 @@ npm install @babel/preset-react --save-dev
 	]
 }
 ```
+### tree shaking 摇树
 
+先配置好 webpack.config.js
+同时在package.json 中设置处理摇树的副作用，指出摇树不要处理 css 文件的导入
 
-### Code Splitting
+```js
+// webpack.config.js
+optimization: {
+    usedExports: true
+}
+
+// package.json
+"sideEffects": ["*.css", "*.less"]
+```
+例如导出两个函数，但是只用到其中一个，那么就会把没用到的另一个摇掉，最终打包的文件中只包含用到的那个。
+
+```js
+// calculator.js
+export function add(a, b) {
+	console.log(a + b)
+}
+
+export function minus(a, b) {
+	console.log(a - b)
+}
+
+// index.js
+import { add, minus } from './calculator'
+add(2, 3)
+
+// 最终打包好的文件  develop mode
+/*! exports provided: add, minus */
+/*! exports used: add */
+```
+
+因为 css 文件一般导入之后不会去使用，但是并不需要摇树，因此使用摇树是记得处理副作用。
+
+### Code Splitting 代码分割
+
+https://www.webpackjs.com/guides/code-splitting/#%E5%85%A5%E5%8F%A3%E8%B5%B7%E7%82%B9-entry-points-
+
+将一些库文件抽离打包到一起，将其他的，可能会变化的业务代码打包到一起。会增加 http 请求，但是可以优化用户体验。
+```js
+// webpack.config.js
+optimization: {
+	// 自动进行代码分割
+	splitChunks: {
+		// 帮助分割同步、异步代码  其他值：initial, async, all
+		chunks: 'all',
+		minSize: 1024 * 10, // 代码尺寸大于 10 KB 时进行分割
+		cacheGroups: {
+			commons: {
+				// 只打包名字为 react 或者 react-dom 的模块，打包好的名字为 react_about.js 
+				test: /(react|react-dom)/,
+				name: 'react_about',
+				chunks: 'all'
+			}
+		}
+	}
+}
+
+```
+
+### 懒加载
+
+https://www.webpackjs.com/guides/lazy-loading/
+
+`webpack.config.js` 中指定 `chunkFilename`，就是指定了非入口 chunk 打包后的名字。
+
+```js
+module.exports = {
+	entry: {
+		index: './src/index.js'
+	},
+	output: {
+		filename: '[name].bundle.js',
+		chunkFilename: '[name].bundle.js',  // <--
+		path: path.resolve(__dirname, 'dist')
+	}
+};
+```
+
+业务代码中：
+
+```js
+// print.js
+export default function print() {
+	console.log('print')
+}
+
+// index.js
+const lazybutton = document.createElement('button');
+lazybutton.innerHTML = "Lazy load";
+
+lazybutton.onclick = () =>
+	import(/* webpackChunkName: "print" */ './print').then(module => {
+		const print = module.default;
+		print();
+	});
+```
+`webpackChunkName` 会在 webpack 打包的时候生成一个叫做 `print.js` 的包。
+在例子中 button 被点击的时候单独发一个 request 去加载 `print.js` 包。就是懒加载。
+
+但是最终生成的包名是：
+
+```js
+index.bundle.js  //  入口文件，由 filename: '[name].bundle.js'  决定
+print.bundle.js  // 非入口文件，由 chunkFilename: '[name].bundle.js' 决定
+```
 

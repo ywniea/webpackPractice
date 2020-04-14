@@ -39,4 +39,11 @@ module.exports = {
 		}),
 		new CleanWebpackPlugin()
 	]
+	,
+	optimization: {
+		usedExports: true,
+		splitChunks: {
+			chunks: 'all',
+		}
+	}
 };
