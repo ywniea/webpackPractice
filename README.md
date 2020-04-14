@@ -92,6 +92,11 @@ npm install --save-dev mini-css-extract-plugin
 ```
 
 ### HotModuleReplacementPlugin 热模块替换 局部刷新 不要在生产环境用
+
+`HotModuleReplacementPlugin` 的作用类似于，当你对页面做了一些交互操作之后，修改了css 或者是js代码，想要在不刷新页面的情况下（保留之前的交互结果）让页面只更新被修改的部分。
+
+需要给 `devServer` 设置 `hotOnly: true` 让浏览器不要自动刷新。
+
 https://www.webpackjs.com/guides/hot-module-replacement/
 
 针对 css 文件：
@@ -171,7 +176,7 @@ devServer: {
 
 所以访问 `http://localhost:3001/index.html` 和 `http://localhost:3001`  是一样的。默认打开`webpack-dev-server 服务器` 内存的  `index.html`。
 
-### webpack.base.js webpack.dev.js webpack.pro.js
+### webpack.base.js & webpack.dev.js & webpack.pro.js
 
 根据配置的作用环境不同，将只在生产环境下配置的放到 `webpack.pro.js` 文件中，只在开发环境下的配置放到 `webpack.dev.js` 文件中，在两个环境中相同的配置放到 `webpack.base.js` 文件中。
 
@@ -202,11 +207,13 @@ module.exports = merge(baseConfiger, proConfiger)
 ```
 
 ### babel
+
 ```bash
 npm install babel-loader @babel/core @babel/preset-env -D
 npm install @babel/polyfill -D
 ```
 
+`webpack.config.js` 中关于 babel 的 配置信息可以抽出来放到 `.babelrc` 文件中。
 ```js
 // webpack.config.js
 {
@@ -332,6 +339,7 @@ https://www.webpackjs.com/guides/lazy-loading/
 `webpack.config.js` 中指定 `chunkFilename`，就是指定了非入口 chunk 打包后的名字。
 
 ```js
+// webpack.config.js
 module.exports = {
 	entry: {
 		index: './src/index.js'
@@ -371,4 +379,4 @@ lazybutton.onclick = () =>
 index.bundle.js  //  入口文件，由 filename: '[name].bundle.js'  决定
 print.bundle.js  // 非入口文件，由 chunkFilename: '[name].bundle.js' 决定
 ```
-
+因为 `webpack.config.js` 中指定了 `output` 的名字。
