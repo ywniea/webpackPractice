@@ -41,9 +41,9 @@ module.exports = {
 
 ```json
 // package.json
-  "scripts": {
-     "build": "webpack"
-  },
+"scripts": {
+    "build": "webpack"
+},
 ```
 
 之后就可以直接使用这个命令运行打包
@@ -68,16 +68,16 @@ loader执行顺序：
 
 ```json
 // webpack.config.js
-		rules:	[
-			{
-				test: /\.less$/,
-				// use 中使用的loader  从右往左依次执行
-				// less-loader 将less 文件转成 css文件
-				// css-loader 将所有css文件合并成一个文件
-				// style-loader 将这个合并后的css文件添加到html文件的style标签中
-				use: ['style-loader', 'css-loader', 'less-loader', 'postcss-loader'],
-			}
-		]
+rules:	[
+  {
+    test: /\.less$/,
+    // use 中使用的loader  从右往左依次执行
+    // less-loader 将less 文件转成 css文件
+    // css-loader 将所有css文件合并成一个文件
+    // style-loader 将这个合并后的css文件添加到html文件的style标签中
+    use: ['style-loader', 'css-loader', 'less-loader', 'postcss-loader'],
+  }
+]
 ```
 
 
@@ -172,6 +172,7 @@ devServer: {
 所以访问 `http://localhost:3001/index.html` 和 `http://localhost:3001`  是一样的。默认打开`webpack-dev-server 服务器` 内存的  `index.html`。
 
 ### webpack.base.js webpack.dev.js webpack.pro.js
+
 根据配置的作用环境不同，将只在生产环境下配置的放到 `webpack.pro.js` 文件中，只在开发环境下的配置放到 `webpack.dev.js` 文件中，在两个环境中相同的配置放到 `webpack.base.js` 文件中。
 
 修改 `package.json` 
