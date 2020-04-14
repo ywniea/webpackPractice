@@ -19,6 +19,13 @@ module.exports = {
 						limit: 223
 					}
 				}
+			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader'
+				}
 			}
 		]
 	},

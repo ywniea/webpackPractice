@@ -44,6 +44,28 @@ module.exports = {
 					'style-loader',
 					// MiniCssExtractPlugin.loader,
 					'css-loader', 'less-loader', 'postcss-loader'],
+			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					// 关于babel的配置 可以将 options 的内容放到 .babelrc 中。
+					options: {
+						presets: [[
+							'@babel/preset-env',
+							{
+								targets: {
+									edge: '17',
+									firefox: '60',
+									chrome: '67',
+									safari: '11.1'
+								},
+								useBuiltIns: 'usage' // 按需注入
+							}
+						]]
+					}
+				}
 			}
 		]
 	},

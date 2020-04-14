@@ -1,6 +1,9 @@
 import axios from 'axios'
 import bg from './images/bg.png'
 import './styles/index.less'
+import React, { Component } from "react";
+import ReactDom from "react-dom";
+// import '@babel/polyfill'
 
 const img = new Image();
 img.src = bg
@@ -17,7 +20,6 @@ axios.get('http://localhost:9000/api/name?id=2333').then(res => {
 axios.post('http://localhost:9000/api/info', { id: 2 }).then(res => {
 	console.log(res)
 })
-document.write('eeeee')
 console.log('222222222222')
 
 var btn = document.createElement("button");
@@ -34,3 +36,16 @@ btn.onclick = function () {
 	section.append(div);
 };
 
+const arr = [1, 2, 3];
+arr.forEach((item, index) => {
+	Promise.resolve(item)
+	console.log(index)
+})
+
+
+class App extends Component {
+	render() {
+		return <div>hello world</div>;
+	}
+}
+ReactDom.render(<App />, document.getElementById("root"));
