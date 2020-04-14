@@ -66,7 +66,7 @@ npm i -D postcss-loader autoprefixer
 
 loader执行顺序：
 
-```json
+```js
 // webpack.config.js
 rules:	[
   {
@@ -95,7 +95,7 @@ npm install --save-dev mini-css-extract-plugin
 https://www.webpackjs.com/guides/hot-module-replacement/
 
 针对 css 文件：
-```json
+```js
 // webpack.config.js
 
 output: {
@@ -141,7 +141,7 @@ if (module.hot) {
 
 #### source-map
 
-```json
+```js
 // webpack.config.js
 
 devtool: 'source-map'
@@ -155,7 +155,7 @@ devtool: 'source-map'
 npm install webpack-dev-server -D
 ```
 
-```json
+```js
 // webpack.config.js
 devServer: {
 	// 指定要访问的服务器静态资源目录
