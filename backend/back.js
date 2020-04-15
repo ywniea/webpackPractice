@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
+const chalk = require('chalk')
 
 //设置跨域访问 CORS
 app.all('*', function (req, res, next) {
@@ -33,4 +34,7 @@ app.post('/api/info', (req, res) => {
 	})
 })
 
-app.listen(9000)
+app.listen(9000, () => {
+	// chalk 修改log颜色
+	console.log(chalk.blue('Listen on port 9000'))
+})

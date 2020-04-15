@@ -109,10 +109,11 @@ module.exports = {
 		port: 3001,
 		// proxy: {
 		// 	"api": {
-		// 		target: 'http://localhost:9000'
+		// 		target: 'http://localhost:9000',
+		//    如果你不想始终传递 /api ，则需要用`pathRewrite`重写路径。
+		// 		pathRewrite: {'^/api' : ''}
 		// 	}
 		// }
-
 		// 浏览器不要自动帮忙刷新
 		hotOnly: true
 	}
